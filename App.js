@@ -1,15 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import {useState} from "react";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import WeatherView from './WeatherView';
 
+const App = () => {
+  return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Погода в Kazan</Text>
+        <WeatherView />
+      </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 
-
+export default App;
