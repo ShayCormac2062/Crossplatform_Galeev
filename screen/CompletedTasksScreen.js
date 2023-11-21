@@ -1,34 +1,42 @@
-import { observer } from 'mobx-react';
+import {observer} from 'mobx-react';
 import {Button, FlatList, StyleSheet, View, Text} from "react-native";
-import React from "react";
+import React, {useRef} from "react";
+import {Modalize} from 'react-native-modalize';
 import {TodoLine} from '../components/TodoLine';
-import todoStore from "../viewmodel/TodoStore";
+import todosStore from "../viewmodel/TodoStore";
 
 export const CompletedTasksScreen = observer(({ route, navigation }) => {
-    const completedTodos = todoStore.completedTodos || [];
+    const completedTodos = todosStore.completedTodos || [];
+    const modalizeRef = useRef(null);
+
+    const openModal = () => {
+        modalizeRef.current?.open();
+    };
 
     return (
         <View style={styles.container}>
             <Text>Завершенные задачи</Text>
-            <FlatList
-                data={completedTodos}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (
-                    <TodoLine
-                        todo={item}
-                        onComplete={() => {}}
-                        onDelete={() => {}}
-                        onImagePicker={() => {}}
-                    />
-                )}
-            />
             <Button
-                title="Просмотреть лог событий"
-                onPress={() => navigation.navigate('EventLog')}
+                title="Просмотреть завершенные задачи"
+                onPress={openModal}
             />
+
+            <Modalize ref={modalizeRef}>
+                <FlatList
+                    data={completedTodos}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item, index }) => (
+                        <TodoLine
+                            todo={item}
+                            onComplete={() => {}}
+                            onDelete={() => {}}
+                            onImagePicker={() => {}}
+                        />
+                    )}
+                />
+            </Modalize>
         </View>
     );
-
 });
 
 const styles = StyleSheet.create({
